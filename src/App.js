@@ -19,6 +19,7 @@ function App() {
   const [time,setTime] = React.useState(0)
   const [startGame,setStartGame] = React.useState(false)
   const [rollCount,setRollCount] = React.useState(0)
+  const [resultText, setResultsText] = React.useState('')
 
   // Timer Creator
   React.useEffect(() => {
@@ -47,40 +48,10 @@ function App() {
     setDice(allNewDice())
     setTime(0)
     setRollCount(0)
+    setResultsText('')
   }
 
-  function scoreDisplay(){
-    let oldScore = []
-    let newScore = {
-      rolls: {rollCount},
-      time: {time}
-    }
-    localStorage.getItem("highScore") ? 
-    oldScore = JSON.parse(localStorage.getItem("highScore")) :
-    localStorage.setItem("highScore",JSON.stringify(newScore))
-
-    if(oldScore === false || oldScore.rolls.rollCount === 0){
-      console.log("New Record")
-      localStorage.setItem("highScore", JSON.stringify(newScore))
-    }else if(newScore.rolls.rollCount < oldScore.rolls.rollCount){
-      console.log(oldScore)
-      console.log(newScore)
-      console.log("You beat your old score!")
-      localStorage.setItem("highScore", JSON.stringify(newScore))
-    }else if(newScore.rolls.rollCount === oldScore.rolls.rollCount){
-      if(newScore.rolls.time < oldScore.rolls.time){
-        console.log("You tied your old score but did faster!")
-        localStorage.setItem("highScore", JSON.stringify(newScore))
-        } else {
-        console.log("You tied your old score but not quite as fast. Better luck next time!")
-        }
-    }else {
-      console.log(newScore)
-      console.log(oldScore.rolls.rollCount)
-      console.log(oldScore)
-      console.log("Your old score is still higher")}
-
-  }
+  
 
 
   function generateNewDie(){
@@ -118,6 +89,39 @@ function App() {
       return die.isHeld ? die : generateNewDie()}))
   }
 
+  function scoreDisplay(){
+    let oldScore = []
+    let newScore = {
+      rolls: {rollCount},
+      time: {time}
+    }
+    localStorage.getItem("highScore") ? 
+    oldScore = JSON.parse(localStorage.getItem("highScore")) :
+    localStorage.setItem("highScore",JSON.stringify(newScore))
+
+    if(oldScore === false || oldScore.rolls.rollCount === 0){
+      localStorage.setItem("highScore", JSON.stringify(newScore))
+      setResultsText(`Congrats! Your high score has been saved at ${newScore.rolls.rollCount} rolls in ${newScore.rolls.time}s!`)
+    }else if(newScore.rolls.rollCount < oldScore.rolls.rollCount){
+      console.log(oldScore)
+      console.log(newScore)
+      localStorage.setItem("highScore", JSON.stringify(newScore))
+      setResultsText(`You beat your previous high score of ${oldScore.rolls.rollCount},congrats!`) 
+    }else if(newScore.rolls.rollCount === oldScore.rolls.rollCount){
+      if(newScore.rolls.time < oldScore.rolls.time){
+        localStorage.setItem("highScore", JSON.stringify(newScore))
+        setResultsText(`You tied your high score of ${oldScore.rolls.rollCount} and beat your previous speed of ${oldScore.rolls.time}s!`)
+        } else {
+        setResultsText(`You tied your high score of ${oldScore.rolls.rollCount} but not quite as fast. Better luck next time!`)
+        }
+    }else {
+      console.log(newScore)
+      console.log(oldScore.rolls.rollCount)
+      console.log(oldScore)
+      setResultsText(`Good try! Your high score remains ${oldScore.rolls.rollCount} rolls in ${oldScore.rolls.time}s, try again! `)}
+
+  }
+
 
   return (
     <div className="App">
@@ -128,6 +132,7 @@ function App() {
         <div className="container">
           {diceArray}
         </div>
+        {tenzies && <h3 className="resultsDisplay">{resultText}</h3>}
         <Stats time={time} rollCount={rollCount}/>
         <button onClick={tenzies ? newGame : rollDice} className="roll-dice">{tenzies ? "New Game" : "Roll"}</button>
       </main>
