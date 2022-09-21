@@ -99,7 +99,7 @@ function App() {
     oldScore = JSON.parse(localStorage.getItem("highScore")) :
     localStorage.setItem("highScore",JSON.stringify(newScore))
 
-    if(oldScore === false || oldScore.rolls.rollCount === 0){
+    if(oldScore === false){
       localStorage.setItem("highScore", JSON.stringify(newScore))
       setResultsText(`Congrats! Your high score has been saved at ${newScore.rolls.rollCount} rolls in ${newScore.rolls.time}s!`)
     }else if(newScore.rolls.rollCount < oldScore.rolls.rollCount){
