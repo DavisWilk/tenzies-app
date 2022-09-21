@@ -99,22 +99,22 @@ function App() {
     oldScore = JSON.parse(localStorage.getItem("highScore")) :
     localStorage.setItem("highScore",JSON.stringify(newScore))
 
-    if(oldScore === false){
+    if(oldScore === false || oldScore.length === 0){
       localStorage.setItem("highScore", JSON.stringify(newScore))
       setResultsText(`Congrats! Your high score has been saved at ${newScore.rolls.rollCount} rolls in ${newScore.rolls.time}s!`)
-    }else if(newScore.rolls.rollCount < oldScore.rolls.rollCount){
+      }else if(newScore.rolls.rollCount < oldScore.rolls.rollCount){
       console.log(oldScore)
       console.log(newScore)
       localStorage.setItem("highScore", JSON.stringify(newScore))
       setResultsText(`You beat your previous high score of ${oldScore.rolls.rollCount},congrats!`) 
-    }else if(newScore.rolls.rollCount === oldScore.rolls.rollCount){
+      }else if(newScore.rolls.rollCount === oldScore.rolls.rollCount){
       if(newScore.rolls.time < oldScore.rolls.time){
         localStorage.setItem("highScore", JSON.stringify(newScore))
         setResultsText(`You tied your high score of ${oldScore.rolls.rollCount} and beat your previous speed of ${oldScore.rolls.time}s!`)
         } else {
         setResultsText(`You tied your high score of ${oldScore.rolls.rollCount} but not quite as fast. Better luck next time!`)
         }
-    }else {
+      }else {
       console.log(newScore)
       console.log(oldScore.rolls.rollCount)
       console.log(oldScore)
