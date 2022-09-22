@@ -101,16 +101,16 @@ function App() {
 
     if(oldScore === false || oldScore.length === 0){
       localStorage.setItem("highScore", JSON.stringify(newScore))
-      setResultsText(`Congrats! Your high score has been saved at ${newScore.rolls.rollCount} rolls in ${newScore.rolls.time}s!`)
+      setResultsText(`Congrats! Your high score has been saved at ${newScore.rolls.rollCount} rolls in ${newScore.time.time}s!`)
       }else if(newScore.rolls.rollCount < oldScore.rolls.rollCount){
       console.log(oldScore)
       console.log(newScore)
       localStorage.setItem("highScore", JSON.stringify(newScore))
       setResultsText(`You beat your previous high score of ${oldScore.rolls.rollCount},congrats!`) 
       }else if(newScore.rolls.rollCount === oldScore.rolls.rollCount){
-      if(newScore.rolls.time < oldScore.rolls.time){
+      if(newScore.rolls.time < oldScore.time.time){
         localStorage.setItem("highScore", JSON.stringify(newScore))
-        setResultsText(`You tied your high score of ${oldScore.rolls.rollCount} and beat your previous speed of ${oldScore.rolls.time}s!`)
+        setResultsText(`You tied your high score of ${oldScore.rolls.rollCount} and beat your previous speed of ${oldScore.time.time}s!`)
         } else {
         setResultsText(`You tied your high score of ${oldScore.rolls.rollCount} but not quite as fast. Better luck next time!`)
         }
@@ -118,7 +118,7 @@ function App() {
       console.log(newScore)
       console.log(oldScore.rolls.rollCount)
       console.log(oldScore)
-      setResultsText(`Good try! Your high score remains ${oldScore.rolls.rollCount} rolls in ${oldScore.rolls.time}s, try again! `)}
+      setResultsText(`Good try! Your high score remains ${oldScore.rolls.rollCount} rolls in ${oldScore.time.time}s, try again! `)}
 
   }
 
